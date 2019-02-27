@@ -1,0 +1,32 @@
+clear all;
+clc;
+close all;
+rng(0);
+
+xmin=100;
+xmax=300;
+n=2000;
+x =[xmin+rand(1,n)*(xmax-xmin)];
+x=x';
+xmin=150;
+xmax=250;
+y =[xmin+rand(1,n)*(xmax-xmin)];
+y=y';
+dataset = [x,y];
+
+plot(dataset(:,1),dataset(:,2), 'x')
+
+[idx C] = kmeans(dataset, 2)
+figure;
+plot(dataset(idx==1,1),dataset(idx==1,2),'b.')%'idx==1' finds  
+hold on;
+plot(dataset(idx==2,1),dataset(idx==2,2),'m.')
+hold on;
+plot(C(:,1),C(:,2),'xg',...
+     'MarkerSize',10,'LineWidth',3) 
+ hold on;
+[silh,h] = silhouette (dataset,idx,'sqEuclidean');
+title(['Number of Clusters = 2']);
+xlabel 'silhouette Value'
+ylabel 'Cluster';
+meansilh = mean(silh);
